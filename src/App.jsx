@@ -1,9 +1,11 @@
 import "./App.css";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useFrame } from "react-three-fiber";
 import * as THREE from "three";
 import testVertexShader from "./shaders/test/vertex.glsl";
 import textFragmentShader from "./shaders/test/fragment.glsl";
+import { OrbitControls } from "@react-three/drei";
+import { Vector2 } from "three";
 
 /** Ths is how the code looks like with 3JS. But
  * React Three Fiber provides other ways to build it.
@@ -38,32 +40,37 @@ import textFragmentShader from "./shaders/test/fragment.glsl";
 const MyShaderMaterial = () => {
   const materialRef = useRef();
 
-  useState(() => {
-    console.log(testVertexShader);
-  });
+  // useState(() => {
+  //   console.log(testVertexShader);
+  // });
+
+  const uniforms = {
+    uTime: { value: 0 },
+    uFrequency: { value: new Vector2(10, 5) },
+  };
 
   useFrame(({ clock }) => {
     if (materialRef.current) {
-      materialRef.current.uniforms.time.value = clock.elapsedTime;
+      materialRef.current.uniforms.uTime.value = clock.elapsedTime;
     }
   });
 
-  const uniforms = {
-    time: { value: 0 },
-  };
+  // getting the shaders:
 
-  // getting the shaders
   const vertexShader = testVertexShader;
-
   const fragmentShader = textFragmentShader;
+  // const [vertexShader, setVertexShader] = useState(testVertexShader);
+  // const [fragmentShader, setFragmentShader] = useState(textFragmentShader);
 
   return (
     // <shaderMaterial/>
+
     <rawShaderMaterial
       ref={materialRef}
       uniforms={uniforms}
       vertexShader={vertexShader}
       fragmentShader={fragmentShader}
+      // transparent={true}
     />
   );
 };

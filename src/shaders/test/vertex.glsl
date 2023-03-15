@@ -2,6 +2,9 @@ uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 modelMatrix;
 
+uniform vec2 uFrequency;
+uniform float uTime;
+
 attribute vec3 position;
   
 void main(){
@@ -15,7 +18,10 @@ void main(){
 
     /* here we are adding some 'movement' to the shader
      by playing with the z coordenate: */
-    modelPosition.z += sin(modelPosition.x * 10.0) * 0.1;
+    modelPosition.z += sin(modelPosition.x * uFrequency.x - uTime) * 0.1;
+    modelPosition.z += sin(modelPosition.y * uFrequency.y - uTime) * 0.1;
+
+    // modelPosition.y += uTime; //testing uTime
 
     vec4 viewPosition = viewMatrix * modelPosition;
     vec4 projectedPosition = projectionMatrix * viewPosition;
