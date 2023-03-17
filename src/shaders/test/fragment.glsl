@@ -6,10 +6,14 @@ uniform vec3 uColor;
 uniform sampler2D uTexture;
 
 varying vec2 vUv;
+varying float vElevation;
 
 void main(){
 
-    vec4 textureColor = texture2D(uTexture, vUv);
+    // vec4 textureColor = texture2D(uTexture, vUv);
+    // textureColor.rgb *= vElevation * 2.0 + 0.5;
+     vec4 textureColor = vec4(vUv, 0.8, 0.6);
+    textureColor.rgb *= vElevation * 2.0 + 0.9;
 
     //                 (r, g, b, transparency);
     // gl_FragColor = vec4(uColor,1.0);
