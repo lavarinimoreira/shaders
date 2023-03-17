@@ -5,7 +5,7 @@ import * as THREE from "three";
 import testVertexShader from "./shaders/test/vertex.glsl";
 import textFragmentShader from "./shaders/test/fragment.glsl";
 import { OrbitControls } from "@react-three/drei";
-import { Color, Vector2 } from "three";
+import { Color, Texture, TextureLoader, Vector2 } from "three";
 
 /** Ths is how the code looks like with 3JS. But
  * React Three Fiber provides other ways to build it.
@@ -44,10 +44,17 @@ const MyShaderMaterial = () => {
   //   console.log(testVertexShader);
   // });
 
+  /**
+   * Textures
+   */
+  const textureLoader = new TextureLoader();
+  const flagTexture = textureLoader.load("/public/images/texture.jpg");
+
   const uniforms = {
     uTime: { value: 0 },
     uFrequency: { value: new Vector2(10, 5) },
     uColor: { value: new Color("green") },
+    uTexture: { value: flagTexture },
   };
 
   useFrame(({ clock }) => {
